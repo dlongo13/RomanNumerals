@@ -21,10 +21,14 @@ public class RomanNumerals {
 	char[] letters;
 	int onvertedNumber;
 	
-	public int convertToInteger(String romanNum) throws VLD_CantBeRepetedException {
+	public int convertToInteger(String romanNum) throws Exception {
 		
 		int numeroConvertito = 0;
 		letters = romanNum.toCharArray();
+		
+		if(controllaCorrettezza(letters) == false){
+			throw new StringsNonValidoException();
+		}else{
 		
 		for(int i = 1; i < letters.length; i++){
 			
@@ -34,7 +38,6 @@ public class RomanNumerals {
 				if(letters[i-1] == letters[i] && (letters[i] == 'V'||letters[i] == 'L' || letters[i] == 'D')){
 					throw new VLD_CantBeRepetedException();
 				}
-				
 				
 				numeroConvertito += convertiLettera(letters[i-1]);
 			}else{
@@ -46,7 +49,7 @@ public class RomanNumerals {
 			
 		}
 		
-		
+		}
 		return numeroConvertito;
 		
 	}
@@ -79,4 +82,15 @@ public class RomanNumerals {
 		
 	}
 	
+	boolean controllaCorrettezza(char[] letters){
+		
+		boolean corretto = true;
+		for (int i = 1; i < letters.length-2; i++){
+			if((letters[i] == letters[i-1] && letters[i-1] == letters[i+1] && letters[i+1] == letters[i+2]) && (letters[i] == 'I' || letters[i] == 'X' || letters[i] == 'C'|| letters[i] == 'M')){
+				return false;
+			}
+		}
+		return corretto;
+	}
 }
+
